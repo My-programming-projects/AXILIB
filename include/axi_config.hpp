@@ -1,0 +1,13 @@
+#ifndef AXI_CONFIG_HPP
+#define AXI_CONFIG_HPP
+
+//#define AXLIB_NDEBUG
+//#define AXILIB_USE_FIXED_MATRIX
+//#define AXILIB_USE_LITERALS
+
+#ifndef AXILIB_NDEBUG
+    #define AXILIB_THROW_EXCEPTIONS
+#endif
+
+
+#endif // AXI_CONFIG_HPP
