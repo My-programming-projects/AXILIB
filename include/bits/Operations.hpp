@@ -37,6 +37,10 @@ namespace axilib::op
     {
         void operator()(LHS& lhs, const RHS& rhs)
         {
+            #ifdef AXILIB_THROW_EXCEPTIONS
+                AXILIB_CHECK( (lhs.rows() == rhs.rows()) && (lhs.cols() == rhs.cols()), Incosistent_columns{})
+            #endif
+
             auto lhs_iter = lhs.begin();
             auto rhs_iter = rhs.cbegin();
 
