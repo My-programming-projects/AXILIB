@@ -42,4 +42,13 @@ axilib::fmatrix matrix_4()
     };
 }
 
+axilib::fmatrix matrix_5()
+{
+    return axilib::fmatrix
+    {
+        {-3.5,  6.2,  2.0},
+        { 7.6, -4.4, -2.1}
+    };
+}
+
 #endif // HELPER_HPP
