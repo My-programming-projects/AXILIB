@@ -1,7 +1,7 @@
 #ifndef TYPE_ALIASES_H
 #define TYPE_ALIASES_H
 
-#include "include/Matrix/Matrix.tcc"
+#include "Matrix.tcc"
 
 namespace axilib
 {

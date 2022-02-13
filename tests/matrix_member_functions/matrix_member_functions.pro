@@ -9,8 +9,8 @@ CONFIG -= qt
 SOURCES += \
         main.cpp         tst_mt.cpp
 
-INCLUDEPATH += D:\Matrix_library\AXI-Matrix-master(1)\AXI-Matrix-master
-DEPENDPATH += D:\Matrix_library\AXI-Matrix-master(1)\AXI-Matrix-master
-
 HEADERS += \
     Helper.hpp
+
+INCLUDEPATH += D:\Projects\AXILIB-library\AXILIB
+DEPENDPATH += D:\Projects\AXILIB-library\AXILIB

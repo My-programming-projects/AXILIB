@@ -4,8 +4,8 @@
 #include "include/axi_config.hpp"
 #include "Axilib_compare.hpp"
 #include "Size.hpp"
-#include "include/Matrix/Traits.hpp"
-#include "include/Matrix/Exceptions.hpp"
+#include "include/bits/Traits.hpp"
+#include "include/bits/Exceptions.hpp"
 
 #include <iostream>
 #include <functional>

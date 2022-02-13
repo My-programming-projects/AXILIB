@@ -2,7 +2,7 @@
 #define MATH_HPP
 
 //#include "include/Vector/Vector.hpp"
-#include "include/Matrix/Enums.hpp"
+#include "include/bits/Enums.hpp"
 
 
 /*namespace axi

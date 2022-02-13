@@ -12,7 +12,7 @@ namespace axilib
         {
             int ulp = 2;
 
-            return std::fabs(lhs - rhs) <= std::numeric_limits<T>::epsilon() * std::fabs(lhs + rhs) * ulp
+            return std::fabs(lhs - rhs) <= 0.00001f * std::fabs(lhs + rhs) * ulp
                    || std::fabs(lhs - rhs) < std::numeric_limits<T>::min();
         }
     };

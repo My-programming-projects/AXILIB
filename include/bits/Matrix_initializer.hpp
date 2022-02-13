@@ -8,7 +8,6 @@
 #include "Concepts.hpp"
 #include "Size.tcc"
 #include "Traits.hpp"
-//#include "include/Exceptions/Exception.hpp"
 
 namespace axilib
 {
