@@ -700,8 +700,8 @@ namespace axilib
         void
         Matrix<T, STORAGE>::rotate(size_type seq)
         {
-            auto first = Delivered_iterator<std::is_same_v<RO, Left>, reverse_iterator, iterator>::get(rbegin(), begin());
-            auto last = Delivered_iterator<std::is_same_v<RO, Left>, reverse_iterator, iterator>::get(rend(), end());
+            auto first = Iterator_needed<std::is_same_v<RO, Left>, reverse_iterator, iterator>::get(rbegin(), begin());
+            auto last = Iterator_needed<std::is_same_v<RO, Left>, reverse_iterator, iterator>::get(rend(), end());
 
             rotate_impl_(first, last, seq);
         }
@@ -720,8 +720,8 @@ namespace axilib
             using iter = typename std::vector<T>::iterator;
             using rev_iter = typename std::vector<T>::reverse_iterator;
 
-            auto first = Delivered_iterator<std::is_same_v<RO, Left>, iter, rev_iter>::get(temp.begin(), temp.rbegin());
-            auto last = Delivered_iterator<std::is_same_v<RO, Left>, iter, rev_iter>::get(temp.end(), temp.rend());
+            auto first = Iterator_needed<std::is_same_v<RO, Left>, iter, rev_iter>::get(temp.begin(), temp.rbegin());
+            auto last = Iterator_needed<std::is_same_v<RO, Left>, iter, rev_iter>::get(temp.end(), temp.rend());
 
             rotate_impl_(first, last, seq);
             std::copy(temp.begin(), temp.end(), begin_row(row));
@@ -741,8 +741,8 @@ namespace axilib
             using iter = typename std::vector<T>::iterator;
             using rev_iter = typename std::vector<T>::reverse_iterator;
 
-            auto first = Delivered_iterator<std::is_same_v<RO, Left>, iter, rev_iter>::get(temp.begin(), temp.rbegin());
-            auto last = Delivered_iterator<std::is_same_v<RO, Left>, iter, rev_iter>::get(temp.end(), temp.rend());
+            auto first = Iterator_needed<std::is_same_v<RO, Left>, iter, rev_iter>::get(temp.begin(), temp.rbegin());
+            auto last = Iterator_needed<std::is_same_v<RO, Left>, iter, rev_iter>::get(temp.end(), temp.rend());
 
             rotate_impl_(first, last, seq);
             std::copy(temp.begin(), temp.end(), begin_col(col));
@@ -758,8 +758,8 @@ namespace axilib
             using iter = typename std::vector<T>::iterator;
             using rev_iter = typename std::vector<T>::reverse_iterator;
 
-            auto first = Delivered_iterator<std::is_same_v<RO, Left>, iter, rev_iter>::get(temp.begin(), temp.rbegin());
-            auto last = Delivered_iterator<std::is_same_v<RO, Left>, iter, rev_iter>::get(temp.end(), temp.rend());
+            auto first = Iterator_needed<std::is_same_v<RO, Left>, iter, rev_iter>::get(temp.begin(), temp.rbegin());
+            auto last = Iterator_needed<std::is_same_v<RO, Left>, iter, rev_iter>::get(temp.end(), temp.rend());
 
             rotate_impl_(first, last, seq);
             diag(temp);
