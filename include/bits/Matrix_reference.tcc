@@ -12,25 +12,60 @@ namespace axilib
     template<typename T, typename STORAGE>
     Matrix_reference<T, STORAGE>::Matrix_reference(const Range& range_rows, const Range& range_cols, Matrix<T, STORAGE>& mat) :
         matrix_size_{mat.size()},
-        range_rows_{range_rows},
-        range_cols_{range_cols},
         size_{range_rows.size(), range_cols.size()},
         ptr_{mat.data()}
     {
-        init();
+        init(range_rows, range_cols);
+    }
+
+    template<typename T, typename STORAGE>
+    Matrix_reference<T, STORAGE>::Matrix_reference(std::size_t row, std::size_t col, Matrix<T, STORAGE>& mat) :
+        matrix_size_{mat.size()},
+        size_{mat.rows() - 1, mat.cols() - 1},
+        ptr_{mat.data()}
+    {
+        init(row, col);
     }
 
     template<typename T, typename STORAGE>
     void
-    Matrix_reference<T, STORAGE>::init()
+    Matrix_reference<T, STORAGE>::init(const Range& range_rows, const Range& range_cols)
     {
         ptrs_.resize(rows() * cols());
 
-        for(size_type i_1 = range_rows_.first(), i_2 = 0; i_1 < range_rows_.last() + 1; ++i_1, ++i_2)
+        for(size_type i_1 = range_rows.first(), i_2 = 0; i_1 < range_rows.last() + 1; ++i_1, ++i_2)
         {
-            for(size_type j_1 = range_cols_.first(), j_2 = 0; j_1 < range_cols_.last() + 1; ++j_1, ++j_2)
+            for(size_type j_1 = range_cols.first(), j_2 = 0; j_1 < range_cols.last() + 1; ++j_1, ++j_2)
             {
                 ptrs_[rows() * j_2 + i_2] = ( &ptr_[matrix_size_.rows() * j_1 + i_1] );
+            }
+        }
+    }
+
+    template<typename T, typename STORAGE>
+    void
+    Matrix_reference<T, STORAGE>::init(size_type row, size_type col)
+    {
+        ptrs_.resize(rows() * cols());
+
+        for(std::size_t i_1 = 0, i_2 = 0; i_1 < matrix_size_.rows(); ++i_1)
+        {
+            bool is_filled = false;
+
+            for(std::size_t j_1 = 0, j_2 = 0; j_1 < matrix_size_.cols(); ++j_1)
+            {
+                if(j_1 != col && i_1 != row)
+                {
+                    ptrs_[rows() * j_2 + i_2] = ( &ptr_[matrix_size_.rows() * j_1 + i_1] );
+
+                    is_filled = true;
+                    ++j_2;
+                }
+            }
+
+            if(is_filled)
+            {
+                ++i_2;
             }
         }
     }
@@ -460,6 +495,23 @@ namespace axilib
         {
             detail::replace_impl(begin_diag(), end_diag(), new_value, pred);
         }
+
+    template<typename T, typename STORAGE>
+    Matrix<T, STORAGE>
+    Matrix_reference<T, STORAGE>::to_matrix() const noexcept
+    {
+        Matrix<T, STORAGE> mat(rows(), cols());
+
+        auto this_iter = cbegin();
+        auto mat_iter = mat.begin();
+
+        for( ; this_iter != cend(); ++this_iter, ++mat_iter)
+        {
+            *mat_iter = *this_iter;
+        }
+
+        return mat;
+    }
 
     template<typename T, typename STORAGE>
     Matrix_reference<T, STORAGE>&

@@ -5,6 +5,7 @@
 #include <iterator>
 
 #include "Range.hpp"
+#include "Deleted.hpp"
 #include "Size.hpp"
 #include "Iterator.hpp"
 #include "Matrix_support_funcs.hpp"
@@ -53,6 +54,8 @@ namespace axilib
         Matrix_reference();
 
         Matrix_reference(const Range& range_rows, const Range& range_cols, Matrix<T, STORAGE>& mat);
+
+        Matrix_reference(std::size_t row, std::size_t col, Matrix<T, STORAGE>& mat);
 
     public:
 
@@ -154,7 +157,7 @@ namespace axilib
         template<typename Pred>
         void replace_in_diag_if(value_type new_value, Pred pred);
 
-        Matrix<T, STORAGE> to_matrix() const;
+        Matrix<T, STORAGE> to_matrix() const noexcept;
 
         Matrix_reference<T, STORAGE>& operator+=(const Matrix_reference<T, STORAGE>& rhs);
 
@@ -181,12 +184,10 @@ namespace axilib
         Matrix_reference<T, STORAGE>& operator/=(const value_type& rhs);
 
     private:
-        void init();
+        void init(const Range& range_rows, const Range& range_cols);
+        void init(size_type row, size_type col);
 
         Size matrix_size_;
-        Range range_rows_;
-        Range range_cols_;
-
         Size size_;
 
         pointer ptr_;
