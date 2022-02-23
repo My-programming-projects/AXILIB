@@ -9,9 +9,9 @@ namespace axilib
     Matrix<T, STORAGE>::Matrix() { }
 
     template<typename T, typename STORAGE>
-    Matrix<T, STORAGE>::Matrix(size_type req_rows, size_type req_cols) :
-        data_(req_rows * req_cols, 0),
-        size_(req_rows, req_cols) { }
+    Matrix<T, STORAGE>::Matrix(size_type rows, size_type cols) :
+        data_(rows * cols, 0),
+        size_(rows, cols) { }
 
     template<typename T, typename STORAGE>
     Matrix<T, STORAGE>::Matrix(const Size& mat_size) :
@@ -52,6 +52,16 @@ namespace axilib
         template<typename Function, typename>
         Matrix<T, STORAGE>::Matrix(const Size& size, Function function) :
             Matrix(size.rows(), size.cols(), function) { }
+
+    template<typename T, typename STORAGE>
+    Matrix<T, STORAGE>::Matrix(size_type rows, size_type cols, Random<T> random) :
+        Matrix(rows, cols)
+    {
+        for(auto iter = begin(); iter != end(); ++iter)
+        {
+            *iter = random();
+        }
+    }
 
     template<typename T, typename STORAGE>
     Matrix<T, STORAGE>::Matrix(const Matrix<T, STORAGE>& copy) :
@@ -505,7 +515,7 @@ namespace axilib
     typename Matrix<T, STORAGE>::value_type
     Matrix<T, STORAGE>::det()
     {
-        //return math::det(*this);
+        return det_impl();
     }
 
     template<typename T, typename STORAGE>
@@ -520,6 +530,13 @@ namespace axilib
     Matrix<T, STORAGE>::submatrix(const Range& rows, const Range& cols)
     {
         return Matrix_reference<T, STORAGE>(rows, cols, *this);
+    }
+
+    template<typename T, typename STORAGE>
+    Matrix_reference<T, STORAGE>
+    Matrix<T, STORAGE>::minor(std::size_t row, std::size_t col)
+    {
+        return Matrix_reference<T, STORAGE>(row, col, *this);
     }
 
     template<typename T, typename STORAGE>
@@ -1709,6 +1726,74 @@ namespace axilib
             std::copy(first_2, last_2, first_1);
             std::copy(temp.begin(), temp.end(), first_2);
         }
+
+    template<typename T, typename STORAGE>
+    typename Matrix<T, STORAGE>::value_type
+    Matrix<T, STORAGE>::det_impl()
+    {
+        #ifdef AXILIB_THROW_EXCEPTIONS
+            AXILIB_CHECK( is_square(), Bad_size("The matrix is not square") )
+        #endif
+
+        /*value_type n_1;
+        value_type n_2;
+        value_type total = 1;
+        value_type determinant = 1;
+
+        std::size_t index;
+
+        Vector<Row, value_type> temp(rows() + 1);
+
+        for(std::size_t i = 0; i < rows(); i++)
+        {
+            index = i;
+
+            while(this->operator()(index, i) == 0 && index < rows())
+            {
+                index++;
+            }
+
+            if(index == rows())
+            {
+                continue;
+            }
+
+            if(index != i)
+            {
+                for(std::size_t j = 0; j < rows(); j++)
+                {
+                   std::swap(this->operator()(index, j), this->operator()(i, j));
+                }
+
+                determinant = determinant * std::pow(-1,index-i);
+            }
+
+            for(std::size_t j = 0; j < rows(); j++)
+            {
+                temp[j] = this->operator()(i, j);
+            }
+
+            for(std::size_t j = i+1; j < rows(); j++)
+            {
+                n_1 = temp[i];
+                n_2 = this->operator()(j, i);
+
+                for(std::size_t k = 0; k < rows(); k++)
+                {
+                     this->operator()(j, k) = (n_1 * this->operator()(j, k)) - (n_2 * temp[k]);
+                }
+
+                    total = total * n_1;
+                }
+            }
+
+            for(std::size_t i = 0; i < rows(); i++)
+            {
+                determinant = determinant * this->operator()(i, i);
+            }
+
+        return (determinant/total);*/
+    }
 
     template<typename T, typename STORAGE>
     void

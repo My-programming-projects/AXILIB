@@ -7,13 +7,15 @@
 
 #include "Iterator.hpp"
 #include "Matrix_reference.tcc"
-#include "Math.hpp"
+#include "Lu.hpp"
 #include "Algorithms.hpp"
 #include "Vector.tcc"
 #include "Iterator_needed.hpp"
 #include "From_string.tcc"
 #include "Matrix_initializer.tcc"
 #include "Square.hpp"
+#include "Random.hpp"
+#include "Cholesky.hpp"
 #include "include/axi_config.hpp"
 
 namespace axilib
@@ -62,7 +64,7 @@ namespace axilib
 
         Matrix();
 
-        Matrix(size_type req_rows, size_type req_cols);
+        Matrix(size_type rows, size_type cols);
 
         Matrix(const Size& mat_size);
 
@@ -75,6 +77,8 @@ namespace axilib
 
         template<typename Function, typename = std::enable_if_t<Is_functor<Function>::value>>
         Matrix(const Size& size, Function function);
+
+        Matrix(size_type rows, size_type cols, Random<T> random);
 
         Matrix(const std::string& expr);
 
@@ -193,6 +197,8 @@ namespace axilib
         Matrix_reference<T, STORAGE> submatrix(size_type first_row, size_type last_row, size_type first_col, size_type last_col);
 
         Matrix_reference<T, STORAGE> submatrix(const Range& rows, const Range& cols);
+
+        Matrix_reference<T, STORAGE> minor(std::size_t row, std::size_t col);
 
         void set_fixed();
 
@@ -440,6 +446,8 @@ namespace axilib
 
         template<typename Iterator1, typename Iterator2>
         void swap_impl_(Iterator1 first_1, Iterator1 last_1, Iterator2 first_2, Iterator2 last_2);
+
+        value_type det_impl();
 
         void transform_to_square();
 
